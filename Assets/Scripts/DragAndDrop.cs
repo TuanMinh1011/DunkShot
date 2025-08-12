@@ -68,8 +68,13 @@ public class DragAndDrop : MonoBehaviour
         //distance = Vector3.Distance(newPosition, startObjectPosition);
 
         //directionForce = startObjectPosition - newPosition;
+        Debug.Log("ghostObj.transform.position: " + transform.position);
 
         rb.AddForce(fjfjfj * forceMultiplier, ForceMode2D.Impulse);
+        //transform.position = new Vector3(0, 5, 0f); // Ensure z position is 0 for 2D
+
+        Debug.Log("directionForce: " + fjfjfj);
+        Debug.Log("ghostObj.transform.position2: " + transform.position);
 
         //Debug.Log("Distance: " + distance + " directionForce: " + directionForce);
     }

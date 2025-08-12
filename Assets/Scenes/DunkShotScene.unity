@@ -992,7 +992,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1055,7 +1055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df8fba9c35a813242b1a02df7700b295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _segmentCount: 50
+  _segmentCount: 20
   _dragAndDrop: {fileID: 1455565234}
   _ghostPrefab: {fileID: 7245709884889502854, guid: 10658df10c765fd44963acedee7be114, type: 3}
   _ballOject: {fileID: 1455565231}

@@ -20,9 +20,7 @@ public class TrajectoryLine : MonoBehaviour
         _segments = new Vector2[_segmentCount];
 
         _lineRenderer = GetComponent<LineRenderer>();
-        _lineRenderer.positionCount = _segmentCount;
 
-        Physics.simulationMode = SimulationMode.Script;
         CreatePhysicsScene();
     }
 
@@ -31,18 +29,23 @@ public class TrajectoryLine : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             SimulateTrajectory(_ghostPrefab, _ballOject.gameObject.transform.position);
-            //_physicsScene.Simulate(Time.fixedDeltaTime);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            _lineRenderer.positionCount = 0;
         }
     }
 
     private Scene _simlationScene;
-    private PhysicsScene _physicsScene;
+    private PhysicsScene2D _physicsScene;
     [SerializeField] private Transform _obstaclesParent;
 
     private void CreatePhysicsScene()
     {
-        _simlationScene = SceneManager.CreateScene("Simulation", new CreateSceneParameters(LocalPhysicsMode.Physics3D));
-        _physicsScene = _simlationScene.GetPhysicsScene();
+        _simlationScene = SceneManager.CreateScene("Simulation", new CreateSceneParameters(LocalPhysicsMode.Physics2D));
+        //_physicsScene = _simlationScene.GetPhysicsScene();
+        _physicsScene = _simlationScene.GetPhysicsScene2D();
 
         foreach(Transform obj in _obstaclesParent)
         {
@@ -55,13 +58,16 @@ public class TrajectoryLine : MonoBehaviour
     private void SimulateTrajectory(GameObject prefab ,Vector3 pos)
     {
         var ghostObj = Instantiate(prefab, pos, Quaternion.identity);
-        ghostObj.GetComponent<Renderer>().enabled = false; // Hide the ghost object
+        //ghostObj.GetComponent<Renderer>().enabled = false; // Hide the ghost object
         SceneManager.MoveGameObjectToScene(ghostObj, _simlationScene);
 
         ghostObj.GetComponent<DragAndDrop>().Init(_dragAndDrop.directionForce); // Initialize the ghost object as a drag and drop object
 
-        _lineRenderer.SetPosition(0, pos);
-        for (int i = 1; i < _segmentCount; i++)
+
+        _lineRenderer.positionCount = _segmentCount;
+
+        //_lineRenderer.SetPosition(0, pos);
+        for (int i = 0; i < _segmentCount; i++)
         {
             //_lineRenderer.SetPosition(i, _dragAndDrop.directionForce * _dragAndDrop.forceMultiplier);
             _physicsScene.Simulate(Time.fixedDeltaTime);
