@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2987901865746357606}
   - component: {fileID: 8591080188298258707}
   - component: {fileID: 8955896094298352654}
-  - component: {fileID: 1971120008173490237}
+  - component: {fileID: 2175524201122727326}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -139,9 +139,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 2
+  m_LinearDamping: 1.5
   m_AngularDamping: 0.05
-  m_GravityScale: 1.5
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -153,7 +153,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &1971120008173490237
+--- !u!114 &2175524201122727326
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7245709884889502854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b260df0b0c77254c8a8a29d31ca1cc9, type: 3}
+  m_Script: {fileID: 11500000, guid: bae2fee02b4ecdd40b7d0567b15f2be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   forceMultiplier: 5

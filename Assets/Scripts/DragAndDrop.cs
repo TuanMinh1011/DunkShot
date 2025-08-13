@@ -1,81 +1,21 @@
+using System;
 using UnityEngine;
 
 public class DragAndDrop : MonoBehaviour
 {
-    [SerializeField] public float forceMultiplier = 3f;
+    public static event Action OnMouseDown;
+    public static event Action OnMouseDrag;
+    public static event Action OnMouseUp;
 
-    private Vector3 mousePosition;
-    private Vector3 startObjectPosition;
-    private float distance;
-    public Vector3 directionForce;
-
-    private Rigidbody2D rb;
-
-    private bool _isGhost = false; // Set to true if this is a ghost object
-
-    private void Awake()
+    void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    private Vector3 GetMousePos()
-    {
-        return Camera.main.WorldToScreenPoint(transform.position);
-    }
-
-    private void Update()
-    {
-        if (_isGhost) return;
-
         if (Input.GetMouseButtonDown(0))
-        {
-            mousePosition = Input.mousePosition - GetMousePos();
-            startObjectPosition = transform.position;
-        }
+            OnMouseDown?.Invoke();
 
         if (Input.GetMouseButton(0))
-        {
-            Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePosition);
-
-            distance = Vector3.Distance(newPosition, startObjectPosition);
-
-            directionForce = startObjectPosition - newPosition;
-        }
+            OnMouseDrag?.Invoke();
 
         if (Input.GetMouseButtonUp(0))
-        {
-            if (distance > 0.5f)
-            {
-                rb.AddForce(directionForce * forceMultiplier, ForceMode2D.Impulse);
-                Debug.Log("Distance: " + distance + " directionForce: " + directionForce);
-            }
-            else
-            {
-                transform.position = startObjectPosition;
-            }
-        }
-    }
-
-    public void Init(Vector3 fjfjfj)
-    {
-        _isGhost = true; // Set this to true if this is a ghost object
-
-        //mousePosition = Input.mousePosition - GetMousePos();
-        //startObjectPosition = transform.position;
-
-        //Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition - mousePosition);
-
-        //distance = Vector3.Distance(newPosition, startObjectPosition);
-
-        //directionForce = startObjectPosition - newPosition;
-        Debug.Log("ghostObj.transform.position: " + transform.position);
-
-        rb.AddForce(fjfjfj * forceMultiplier, ForceMode2D.Impulse);
-        //transform.position = new Vector3(0, 5, 0f); // Ensure z position is 0 for 2D
-
-        Debug.Log("directionForce: " + fjfjfj);
-        Debug.Log("ghostObj.transform.position2: " + transform.position);
-
-        //Debug.Log("Distance: " + distance + " directionForce: " + directionForce);
+            OnMouseUp?.Invoke();
     }
 }
