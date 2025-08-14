@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleMouseDrag()
     {
-        _trajectoryLine.SimulateTrajectory(_ballPrefab, _ballObject.transform.position, _ballObject.directionForce);
+        //_trajectoryLine.SimulateTrajectory(_ballPrefab, _ballObject.transform.position, _ballObject.directionForce);
+        _trajectoryLine.SimulateTrajectory1(_ballPrefab, _ballObject.transform.position, _ballObject.directionForce);
     }
 }

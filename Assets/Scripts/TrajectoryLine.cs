@@ -53,7 +53,7 @@ public class TrajectoryLine : MonoBehaviour
         var ghostObj = Instantiate(prefab, pos, Quaternion.identity);
         SceneManager.MoveGameObjectToScene(ghostObj.gameObject, _simlationScene);
 
-        ghostObj.Init(directionForce); // Initialize the ghost object as a drag and drop object
+        ghostObj.Init(directionForce);
 
         _lineRenderer.positionCount = _segmentCount;
 
@@ -66,8 +66,39 @@ public class TrajectoryLine : MonoBehaviour
         Destroy(ghostObj.gameObject);
     }
 
+    private BallController ghostObjReal;
+    public void SimulateTrajectory1(BallController prefab, Vector3 pos, Vector3 directionForce)
+    {
+        if (ghostObjReal == null)
+        {
+            ghostObjReal = Instantiate(prefab, pos, Quaternion.identity);
+            ghostObjReal.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            SceneManager.MoveGameObjectToScene(ghostObjReal.gameObject, _simlationScene);
+        }
+        else
+        {
+            ghostObjReal.transform.position = pos;
+            ghostObjReal.transform.rotation = Quaternion.identity; // Reset rotation
+        }
+
+        ghostObjReal.gameObject.SetActive(true);
+
+        ghostObjReal.Init(directionForce);
+
+        _lineRenderer.positionCount = _segmentCount;
+
+        for (int i = 0; i < _segmentCount; i++)
+        {
+            _physicsScene.Simulate(Time.fixedDeltaTime);
+            _lineRenderer.SetPosition(i, ghostObjReal.transform.position);
+        }
+
+        ghostObjReal.gameObject.SetActive(false);
+        //Destroy(ghostObj.gameObject);
+    }
+
     private void HandleMouseUp()
     {
-        _lineRenderer.positionCount = 0; // Clear the line renderer when the mouse is released
+        _lineRenderer.positionCount = 0;
     }
 }
