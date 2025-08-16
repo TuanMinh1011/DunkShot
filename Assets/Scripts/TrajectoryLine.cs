@@ -10,6 +10,8 @@ public class TrajectoryLine : MonoBehaviour
 
     [Header("Other Value")]
     [SerializeField] private Transform _obstaclesParent;
+    [SerializeField] private GameObject _ballObject;
+    [SerializeField] private BallController _ballPrefab;
 
     private LineRenderer _lineRenderer;
 
@@ -19,10 +21,13 @@ public class TrajectoryLine : MonoBehaviour
     private void OnEnable()
     {
         DragAndDrop.OnMouseUp += HandleMouseUp;
+        DragAndDrop.OnMouseDrag += HandleMouseDrag;
     }
+
     private void OnDisable()
     {
         DragAndDrop.OnMouseUp -= HandleMouseUp;
+        DragAndDrop.OnMouseDrag -= HandleMouseDrag;
     }
 
     private void Awake()
@@ -33,6 +38,11 @@ public class TrajectoryLine : MonoBehaviour
     private void Start()
     {
         CreatePhysicsScene();
+    }
+
+    private void HandleMouseDrag()
+    {
+        SimulateTrajectory(_ballPrefab, _ballObject.transform.position, _ballObject.GetComponent<BallController>().directionForce);
     }
 
     private void CreatePhysicsScene()
@@ -48,26 +58,26 @@ public class TrajectoryLine : MonoBehaviour
         }
     }
 
-    public void SimulateTrajectory(BallController prefab ,Vector3 pos, Vector3 directionForce)
-    {
-        var ghostObj = Instantiate(prefab, pos, Quaternion.identity);
-        SceneManager.MoveGameObjectToScene(ghostObj.gameObject, _simlationScene);
+    //public void SimulateTrajectory(BallController prefab ,Vector3 pos, Vector3 directionForce)
+    //{
+    //    var ghostObj = Instantiate(prefab, pos, Quaternion.identity);
+    //    SceneManager.MoveGameObjectToScene(ghostObj.gameObject, _simlationScene);
 
-        ghostObj.Init(directionForce);
+    //    ghostObj.Init(directionForce);
 
-        _lineRenderer.positionCount = _segmentCount;
+    //    _lineRenderer.positionCount = _segmentCount;
 
-        for (int i = 0; i < _segmentCount; i++)
-        {
-            _physicsScene.Simulate(Time.fixedDeltaTime);
-            _lineRenderer.SetPosition(i, ghostObj.transform.position);
-        }
+    //    for (int i = 0; i < _segmentCount; i++)
+    //    {
+    //        _physicsScene.Simulate(Time.fixedDeltaTime);
+    //        _lineRenderer.SetPosition(i, ghostObj.transform.position);
+    //    }
 
-        Destroy(ghostObj.gameObject);
-    }
+    //    Destroy(ghostObj.gameObject);
+    //}
 
     private BallController ghostObjReal;
-    public void SimulateTrajectory1(BallController prefab, Vector3 pos, Vector3 directionForce)
+    public void SimulateTrajectory(BallController prefab, Vector3 pos, Vector3 directionForce)
     {
         if (ghostObjReal == null)
         {

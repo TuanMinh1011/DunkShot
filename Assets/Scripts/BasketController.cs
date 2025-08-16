@@ -30,6 +30,11 @@ public class BasketController : MonoBehaviour
         Reset();
     }
 
+    public void SetData(BallController ballController)
+    {
+        _ballObject = ballController;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_ballObject._currentState == BallState.InBasket)
@@ -61,5 +66,6 @@ public class BasketController : MonoBehaviour
     {
         _isGoal = false;
         _isTouch = false;
+        transform.rotation = Quaternion.Euler(0, 0, 60);
     }
 }

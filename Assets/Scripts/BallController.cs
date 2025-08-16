@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public enum BallState
@@ -87,7 +86,7 @@ public class BallController : MonoBehaviour
         }
         else
         {
-            transform.position = _startObjectPosition;
+            //transform.position = _startObjectPosition;
         }
     }
 
