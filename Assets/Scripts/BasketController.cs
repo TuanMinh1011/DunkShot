@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class BasketController : MonoBehaviour
+public class BasketController : Basket
 {
+    [Header("ReadOnly Parameter")]
     [SerializeField] private bool _isGoal = false;
     [SerializeField] private bool _isTouch = false;
-    [SerializeField] private BallController _ballObject;
 
+    private BallController _ballObject;
     private GameObject _colliderGoal;
     private GameObject _colliderFailed;
 
@@ -30,9 +31,10 @@ public class BasketController : MonoBehaviour
         Reset();
     }
 
-    public void SetData(BallController ballController)
+    public void SetData(BallController ballController, TypesSide typesSide)
     {
         _ballObject = ballController;
+        currentSide = typesSide;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

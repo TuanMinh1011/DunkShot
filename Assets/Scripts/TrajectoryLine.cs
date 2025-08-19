@@ -95,12 +95,19 @@ public class TrajectoryLine : MonoBehaviour
 
         ghostObjReal.Init(directionForce);
 
-        _lineRenderer.positionCount = _segmentCount;
-
-        for (int i = 0; i < _segmentCount; i++)
+        if (directionForce == Vector3.zero)
         {
-            _physicsScene.Simulate(Time.fixedDeltaTime);
-            _lineRenderer.SetPosition(i, ghostObjReal.transform.position);
+            _lineRenderer.positionCount = 0;
+        }
+        else
+        {
+            _lineRenderer.positionCount = _segmentCount;
+
+            for (int i = 0; i < _segmentCount; i++)
+            {
+                _physicsScene.Simulate(Time.fixedDeltaTime);
+                _lineRenderer.SetPosition(i, ghostObjReal.transform.position);
+            }
         }
 
         ghostObjReal.gameObject.SetActive(false);

@@ -11,6 +11,7 @@ public class BallController : MonoBehaviour
 {
     [SerializeField] private float _forceMultiplier = 5f;
     [SerializeField] private float _clampValue = 20f;
+    [SerializeField] private float _distanceToForce = 1.5f;
 
     public BallState _currentState;
     public Vector3 directionForce;
@@ -59,15 +60,24 @@ public class BallController : MonoBehaviour
     {
         if (_isGhost || _currentState != BallState.InBasket) return;
 
+
         rb.simulated = false;
         transform.position = _currentBasket.transform.position;
 
         Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition - _mousePosition);
         _distance = Vector3.Distance(newPosition, _startObjectPosition);
-        directionForce = _startObjectPosition - newPosition;
 
-        Quaternion rotaionBasket = Quaternion.LookRotation(_currentBasket.transform.forward, directionForce) * Quaternion.Euler(0, 0, 60);
-        _currentBasket.transform.rotation = new Quaternion(rotaionBasket.x, rotaionBasket.y, rotaionBasket.z, rotaionBasket.w);
+        if (_distance > _distanceToForce)
+        {
+            directionForce = _startObjectPosition - newPosition;
+            Quaternion rotaionBasket = Quaternion.LookRotation(_currentBasket.transform.forward, directionForce) * Quaternion.Euler(0, 0, 60);
+            _currentBasket.transform.rotation = new Quaternion(rotaionBasket.x, rotaionBasket.y, rotaionBasket.z, rotaionBasket.w);
+        }
+        else
+        {
+            directionForce = Vector3.zero;
+        }
+
         //Debug.Log("rotation: "  + _currentBasket.transform.forward);
     }
 
@@ -75,7 +85,7 @@ public class BallController : MonoBehaviour
     {
         if (_isGhost || _currentState != BallState.InBasket) return;
 
-        if (_distance > 0.5f)
+        if (_distance > _distanceToForce)
         {
             rb.simulated = true;
 

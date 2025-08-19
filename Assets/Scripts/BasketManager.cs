@@ -12,6 +12,7 @@ public class BasketManager : MonoBehaviour
     private BasketController _basketPrefab;
 
     private BallController _ballInGame;
+    private BasketController _lastBasket;
 
     private List<BasketController> _listBasketInGame = new List<BasketController>();
 
@@ -25,7 +26,7 @@ public class BasketManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnBasket(_startPoint);
+        SpawnBasket(_startPoint, TypesSide.Left);
     }
 
     private void Update()
@@ -36,18 +37,31 @@ public class BasketManager : MonoBehaviour
         }
     }
 
-    private void SpawnBasket(Vector3 spawnPosition)
+    private void SpawnBasket(Vector3 spawnPosition, TypesSide typesSide)
     {
         BasketController basket = Instantiate(_basketPrefab, spawnPosition, Quaternion.identity);
-        basket.SetData(_ballInGame);
+        basket.SetData(_ballInGame, typesSide);
+        _lastBasket = basket;
 
         _listBasketInGame.Add(basket);
     }
 
     private void CalSpawnBasket()
     {
-        Vector3 basketPoint = new Vector3(_startPoint.x + 3, _startPoint.y + 2, _startPoint.z);
+        TypesSide nextTypeSide = TypesSide.None;
 
-        SpawnBasket(basketPoint);
+        Vector3 lastBasketPoint = _lastBasket.transform.position;
+
+        if (_lastBasket.currentSide == TypesSide.Left)
+        {
+            nextTypeSide = TypesSide.Right;
+        }
+        else
+        {
+            nextTypeSide = TypesSide.Left;
+        }
+
+        Vector3 basketPoint = new Vector3(lastBasketPoint.x + 3, lastBasketPoint.y + 2, lastBasketPoint.z);
+        SpawnBasket(basketPoint, nextTypeSide);
     }
 }
