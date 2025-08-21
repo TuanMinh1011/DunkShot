@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee0798e276acf74d906df6f280420de, type: 3}
   m_Name: RightBasket
   m_EditorClassIdentifier: 
-  currentSide: 2
-  startPointHorizontal: -2
-  endPointHorizontal: -3
+  side: 2
+  startPointHorizontal: 2
+  endPointHorizontal: 3
   startPointVertical: 2
   endPointVertical: 3

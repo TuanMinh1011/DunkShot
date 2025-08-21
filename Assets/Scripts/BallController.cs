@@ -77,8 +77,6 @@ public class BallController : MonoBehaviour
         {
             directionForce = Vector3.zero;
         }
-
-        //Debug.Log("rotation: "  + _currentBasket.transform.forward);
     }
 
     private void HandleMouseUp()
@@ -92,11 +90,10 @@ public class BallController : MonoBehaviour
             Vector2 force = directionForce * _forceMultiplier;
             force = Vector2.ClampMagnitude(force, _clampValue);
             rb.AddForce(force, ForceMode2D.Impulse);
-            //Debug.Log("Distance: " + _distance + " directionForce: " + directionForce);
         }
         else
         {
-            //transform.position = _startObjectPosition;
+            transform.position = _startObjectPosition;
         }
     }
 
@@ -108,7 +105,6 @@ public class BallController : MonoBehaviour
     public void SwitchBallInBasketState(BasketController basketController)
     {
         _currentState = BallState.InBasket;
-
         _currentBasket = basketController;
     }
 

@@ -6,6 +6,8 @@ using UnityEngine;
 public class BasketManager : MonoBehaviour
 {
     [SerializeField] private Vector3 _startPoint;
+    [SerializeField] private BasketSO _leftBasketSO;
+    [SerializeField] private BasketSO _rightBasketSO;
 
     private GameManager _gameManager;
     private BallController _ballPrefab;
@@ -14,7 +16,7 @@ public class BasketManager : MonoBehaviour
     private BallController _ballInGame;
     private BasketController _lastBasket;
 
-    private List<BasketController> _listBasketInGame = new List<BasketController>();
+    [SerializeField] private List<BasketController> _listBasketInGame = new List<BasketController>();
 
     private void Awake()
     {
@@ -35,6 +37,13 @@ public class BasketManager : MonoBehaviour
         {
             CalSpawnBasket();
         }
+        else
+        {
+            if (_listBasketInGame[1]._isGoal)
+            {
+                RemoveBasket(0);
+            }
+        }
     }
 
     private void SpawnBasket(Vector3 spawnPosition, TypesSide typesSide)
@@ -48,20 +57,33 @@ public class BasketManager : MonoBehaviour
 
     private void CalSpawnBasket()
     {
-        TypesSide nextTypeSide = TypesSide.None;
-
+        BasketSO nextBasketSO;
         Vector3 lastBasketPoint = _lastBasket.transform.position;
 
-        if (_lastBasket.currentSide == TypesSide.Left)
+        switch (_lastBasket.currentSide)
         {
-            nextTypeSide = TypesSide.Right;
-        }
-        else
-        {
-            nextTypeSide = TypesSide.Left;
+            case TypesSide.Left:
+                nextBasketSO = _rightBasketSO;
+                break;
+            case TypesSide.Right:
+                nextBasketSO = _leftBasketSO;
+                break;
+            default:
+                Debug.LogError("Invalid basket side");
+                return;
         }
 
-        Vector3 basketPoint = new Vector3(lastBasketPoint.x + 3, lastBasketPoint.y + 2, lastBasketPoint.z);
+        float xRandom = Random.Range(nextBasketSO.startPointHorizontal, nextBasketSO.endPointHorizontal);
+        float yRandom = Random.Range(nextBasketSO.startPointVertical, nextBasketSO.endPointVertical);
+        TypesSide nextTypeSide = nextBasketSO.side;
+
+        Vector3 basketPoint = new Vector3(lastBasketPoint.x + xRandom, lastBasketPoint.y + yRandom, lastBasketPoint.z);
         SpawnBasket(basketPoint, nextTypeSide);
+    }
+
+    private void RemoveBasket(int index)
+    {
+        Destroy(_listBasketInGame[index].gameObject);
+        _listBasketInGame.RemoveAt(index);
     }
 }

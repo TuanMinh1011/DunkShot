@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class BasketController : Basket
 {
-    [Header("ReadOnly Parameter")]
-    [SerializeField] private bool _isGoal = false;
-    [SerializeField] private bool _isTouch = false;
+    //[Header("ReadOnly Parameter")]
+    //[SerializeField] private bool _isGoal = false;
+    //[SerializeField] private bool _isTouch = false;
 
     private BallController _ballObject;
     private GameObject _colliderGoal;
